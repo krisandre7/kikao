@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "Cliente.h"
+#include <stdbool.h>
 
 #ifndef _FILA_CIRCULAR_H_
 #define _FILA_CIRCULAR_H_
@@ -18,7 +19,7 @@ static FilaClientes *filaClientes = NULL;
 FilaClientes *FilaClientesNew();
 void FilaClientesDelete();
 
-void enfileirarCliente(Cliente cliente);
+bool enfileirarCliente(Cliente cliente);
 
 Cliente *desenfileirarCliente();
 

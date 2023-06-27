@@ -3,8 +3,10 @@
 #include "Cliente.h"
 #include <stdlib.h>
 #include "Uteis.h"
-#include "time.h"
 #include "Monitor.h"
+#include <stdbool.h>
+#include <sys/time.h>
+struct timeval tempoChegada;
 
 void configurarClientes()
 {
@@ -19,13 +21,13 @@ void *gerarClientes(void *dado)
     {
         Cliente *cliente = malloc(sizeof(Cliente));
 
-        cliente->chegada = milissegundos();
-        cliente->inicioAtendimento = 0;
-        cliente->fimAtendimento = 0;
+        gettimeofday(&tempoChegada, NULL);
 
-        enfileirarCliente(*cliente);
-        printf("Adicionado! ");
-        imprimirCliente(*clienteFinal());
+        double tempoChegadaMilis = (tempoChegada.tv_sec) * 1000.0; //sec to ms
+        tempoChegadaMilis += (tempoChegada.tv_usec) / 1000.0; // us to ms
+        cliente->chegada = tempoChegadaMilis;
+
+        bool resposta = enfileirarCliente(*cliente);
 
         free(cliente);
 

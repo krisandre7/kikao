@@ -36,6 +36,9 @@ void *threadParadaRotina(void *dado)
 
     definirExecutando(false);
 
+    printf("Tempo de Espera Médio: %.0lf\n", mediaTempoEspera());
+    printf("Número de clientes atendidos: %d\n", totalAtendimentos());
+
     return NULL;
 }
 
@@ -45,6 +48,7 @@ void iniciarThreads()
     pthread_t threadParada, threadGeradora, threadCarrocinha;
     executando = true;
 
+    printf("Simulação iniciada! Aperte ENTER para interromper e mostrar estatísticas.\n");
     criarThreadGeradora(&threadGeradora);
     pthread_create(&threadParada, NULL, threadParadaRotina, NULL);
     criarThreadCarrocinha(&threadCarrocinha);
@@ -52,4 +56,6 @@ void iniciarThreads()
     pthread_join(threadGeradora, NULL);
     pthread_join(threadParada, NULL);
     pthread_join(threadCarrocinha, NULL);
+
+    printf("Simulação iniciada! Aperte ENTER para interromper e mostrar estatísticas.");
 }

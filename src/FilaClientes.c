@@ -2,13 +2,15 @@
 #include <stdlib.h>
 #include "Cliente.h"
 #include <pthread.h>
+#include <stdbool.h>
+#include <sys/time.h>
 
 static pthread_mutex_t mutexFilaClientes;
+struct timeval tv;
 
 FilaClientes *FilaClientesNew()
 {
     pthread_mutex_init(&mutexFilaClientes, NULL);
-    printf("Mutex iniciado!\n");
     filaClientes = malloc(sizeof(FilaClientes));
     filaClientes->tamanho = 0;
     filaClientes->frente = 0;
@@ -20,13 +22,13 @@ void FilaClientesDelete()
     free(filaClientes);
 }
 
-void enfileirarCliente(Cliente cliente)
+bool enfileirarCliente(Cliente cliente)
 {
     pthread_mutex_lock(&mutexFilaClientes);
     if (filaClientes->tamanho == MAXIMO_CLIENTES)
     {
         pthread_mutex_unlock(&mutexFilaClientes);
-        return;
+        return false;
     }
 
     int indiceEscrita = (filaClientes->frente + filaClientes->tamanho) % MAXIMO_CLIENTES;
@@ -34,6 +36,8 @@ void enfileirarCliente(Cliente cliente)
 
     filaClientes->tamanho++;
     pthread_mutex_unlock(&mutexFilaClientes);
+
+    return true;
 }
 
 Cliente *desenfileirarCliente()
@@ -83,4 +87,12 @@ Cliente *clienteFinal()
     Cliente *cliente = &filaClientes->clientes[(filaClientes->frente + filaClientes->tamanho - 1) % MAXIMO_CLIENTES];
     pthread_mutex_unlock(&mutexFilaClientes);
     return cliente;
+}
+
+int tamanhoFila() {
+    pthread_mutex_lock(&mutexFilaClientes);
+    int valor = filaClientes->tamanho;
+    pthread_mutex_unlock(&mutexFilaClientes);
+
+    return valor;
 }
