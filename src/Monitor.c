@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "Geradora.h"
 #include "Carrocinha.h"
+#include "Reabastecedor.h"
 
 static pthread_mutex_t mutexExecutando;
 
@@ -30,7 +31,7 @@ void definirExecutando(bool valor)
 
 void *threadParadaRotina(void *dado)
 {
-    (void)dado;
+    (void)dado; // não utilizado
 
     getchar();
 
@@ -39,23 +40,30 @@ void *threadParadaRotina(void *dado)
     printf("Tempo de Espera Médio: %.0lf\n", mediaTempoEspera());
     printf("Número de clientes atendidos: %d\n", totalAtendimentos());
 
+    Ingredientes faltas = faltaIngredientes();
+    printf("Número de faltas de pao: %d\n", faltas.pao);
+    printf("Número de faltas de salsicha: %d\n", faltas.salsicha);
+    printf("Número de faltas de molho: %d\n", faltas.molho);
+
     return NULL;
 }
 
 void iniciarThreads()
 {
     pthread_mutex_init(&mutexExecutando, NULL);
-    pthread_t threadParada, threadGeradora, threadCarrocinha;
+    pthread_t threadParada, threadGeradora, threadCarrocinha, threadPao, threadSalsicha, threadMolho;
     executando = true;
 
     printf("Simulação iniciada! Aperte ENTER para interromper e mostrar estatísticas.\n");
     criarThreadGeradora(&threadGeradora);
     pthread_create(&threadParada, NULL, threadParadaRotina, NULL);
     criarThreadCarrocinha(&threadCarrocinha);
+    criarThreadReabastecedor(&threadPao, &threadSalsicha, &threadMolho);
 
     pthread_join(threadGeradora, NULL);
     pthread_join(threadParada, NULL);
     pthread_join(threadCarrocinha, NULL);
-
-    printf("Simulação iniciada! Aperte ENTER para interromper e mostrar estatísticas.");
+    pthread_join(threadPao, NULL);
+    pthread_join(threadSalsicha, NULL);
+    pthread_join(threadMolho, NULL);
 }

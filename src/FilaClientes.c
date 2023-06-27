@@ -89,7 +89,8 @@ Cliente *clienteFinal()
     return cliente;
 }
 
-int tamanhoFila() {
+int tamanhoFila()
+{
     pthread_mutex_lock(&mutexFilaClientes);
     int valor = filaClientes->tamanho;
     pthread_mutex_unlock(&mutexFilaClientes);

@@ -15,7 +15,7 @@ void configurarClientes()
 
 void *gerarClientes(void *dado)
 {
-    (void)dado; // Top 10 truques
+    (void)dado; // não utilizado
 
     while (estaExecutando())
     {
@@ -23,8 +23,8 @@ void *gerarClientes(void *dado)
 
         gettimeofday(&tempoChegada, NULL);
 
-        double tempoChegadaMilis = (tempoChegada.tv_sec) * 1000.0; //sec to ms
-        tempoChegadaMilis += (tempoChegada.tv_usec) / 1000.0; // us to ms
+        double tempoChegadaMilis = (tempoChegada.tv_sec) * 1000.0; // sec to ms
+        tempoChegadaMilis += (tempoChegada.tv_usec) / 1000.0;      // us to ms
         cliente->chegada = tempoChegadaMilis;
 
         bool resposta = enfileirarCliente(*cliente);

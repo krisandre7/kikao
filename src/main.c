@@ -4,7 +4,7 @@
 
 int main()
 {
-    srand(time(NULL));
+    srand(time(NULL)); // seed para gerar números aleatórios
     iniciarThreads();
     return 0;
 }
