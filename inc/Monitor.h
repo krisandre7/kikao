@@ -12,7 +12,7 @@ bool estaExecutando();
 void definirExecutando(bool valor);
 
 // thread que para o programa ao receber uma entrada do teclado
-void *threadParada(void *dado);
+void *threadParadaRotina(void *dado);
 
 // inicia as threads do programa
 void iniciarThreads();
