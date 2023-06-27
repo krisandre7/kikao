@@ -27,21 +27,32 @@ void *consumirClientes(void *dado)
 {
     (void)dado; // não utilizado
 
+    // flag controlada pela thread de parada
     while (estaExecutando())
     {
+        // tenta consumir um cliente da fila
+        // se não houver cliente, retorna NULL
         Cliente *cliente = desenfileirarCliente();
         if (cliente != NULL)
         {
+
+            // verifica se há ingredientes suficientes para o atendimento
+            // se houver, consome os ingredientes e demora um tempo para preparar o kikão 
+            // se não houver, contabiliza a falta de ingredientes
             if (kikaoPossivel())
             {
                 consumirIngredientes();
 
                 dormir(faixaRandomica(100, 500));
 
-                gettimeofday(&fimAtendimento, NULL);
 
-                double fimAtendimentoMilis = (fimAtendimento.tv_sec) * 1000.0; // sec to ms
-                fimAtendimentoMilis += (fimAtendimento.tv_usec) / 1000.0;      // us to ms
+                // calcula o tempo de fim do atendimento em milissegundos
+                gettimeofday(&fimAtendimento, NULL);
+                double fimAtendimentoMilis = (fimAtendimento.tv_sec) * 1000.0;
+                fimAtendimentoMilis += (fimAtendimento.tv_usec) / 1000.0;
+
+                // contabiliza o tempo de espera do cliente
+                // e o número de atendimentos
                 tempoTotalEspera += fimAtendimentoMilis - cliente->chegada;
                 numeroAtendimentos++;
             }
