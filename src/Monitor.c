@@ -29,7 +29,7 @@ void definirExecutando(bool valor)
     pthread_mutex_unlock(&mutexExecutando);
 }
 
-void *threadParadaRotina(void *dado)
+void *threadParada(void *dado)
 {
     (void)dado; // não utilizado
 
@@ -56,7 +56,7 @@ void iniciarThreads()
 
     printf("Simulação iniciada! Aperte ENTER para interromper e mostrar estatísticas.\n");
     criarThreadGeradora(&threadGeradora);
-    pthread_create(&threadParada, NULL, threadParadaRotina, NULL);
+    pthread_create(&threadParada, NULL, threadParada, NULL);
     criarThreadCarrocinha(&threadCarrocinha);
     criarThreadReabastecedor(&threadPao, &threadSalsicha, &threadMolho);
 
