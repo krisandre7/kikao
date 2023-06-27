@@ -8,7 +8,7 @@
 void *reabastecerIngredientes(void *dado) {
     int ingrediente = (TipoIngrediente) dado;
     while (estaExecutando()) {
-        dormir(faixaRandomica(1000, 2500));
+        dormir(faixaRandomica(2000, 5000));
         reabastecerIngrediente(ingrediente);
     }
     return NULL;

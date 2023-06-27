@@ -98,6 +98,7 @@ bool kikaoPossivel()
     pao = ingredientes->pao;
     salsicha = ingredientes->salsicha;
     molho = ingredientes->molho;
+    // printf("Ingredientes: %d pães, %d salsichas, %d molhos\n", pao, salsicha, molho);
 
     if (pao == 0)
         falta->pao++;
